@@ -11,18 +11,27 @@ class MoviesController < ApplicationController
 	@sort = params[:sort]
         @selected_ratings = params[:ratings]
 
-     if @selected_ratings == nil and session[:ratings] != nil
+     if @selected_ratings == nil and session[:ratings]==nil
+	@selected_ratings = @all_ratings
+     elsif @selected_ratings == nil and session[:ratings] != nil
 	@selected_ratings = session[:ratings]
      else
 	@selected_ratings = params[:ratings].keys
      end
+	
+     if @sort == nil
+	@sort = session[:sort]
+     end 
 
      if @sort==nil
 	session[:ratings]=@selected_ratings
         @movies = Movie.find(:all, :conditions => {"rating" => @selected_ratings})
+     elsif @sort == session[:sort] 
+	session[:ratings]=@selected_ratings
+	@movies = Movie.order(@sort + " ASC").find(:all, :conditions => {"rating" => @selected_ratings})
      else
 	session[:sort]=@sort
-	@movies = Movie.order(@sort + " ASC")
+	@movies = Movie.order(@sort + " ASC").find(:all, :conditions => {"rating" => @selected_ratings})
       end
   end
 
