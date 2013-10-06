@@ -60,6 +60,6 @@ form label {
   color: maroon;
 }
 
-table#movies th.hilite {
+#title_header {
 background-color: yellow;
 }
