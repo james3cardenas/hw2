@@ -14,11 +14,15 @@ class MoviesController < ApplicationController
      if @selected_ratings == nil and session[:ratings]==nil
 	@selected_ratings = @all_ratings
      elsif @selected_ratings == nil and session[:ratings] != nil
-	@selected_ratings = session[:ratings]
-     else
-	@selected_ratings = params[:ratings].keys
-     end
 	
+	redirect_to :ratings => session[:ratings]
+     else
+	if @selected_ratings.class == Array
+	else
+	@selected_ratings = params[:ratings].keys
+	end
+     end
+		
      if @sort == nil
 	@sort = session[:sort]
      end 
